@@ -23,12 +23,12 @@ class ANLI(BotInterface):
         elif stage == Stage.FLOP:
             return self.handleFlop(action_space, observation)
         elif stage == Stage.TURN:
-            return self.handleTurnFlop(action_space, observation)
+            return self.handleTurn(action_space, observation)
         elif stage == Stage.RIVER:
-            return self.handleRiverFlop(action_space, observation)
-        elif stage == Stage.SHOWDOWN:
-            return self.handleShowdownFlop(action_space, observation)
-        return self.handleShowdownFlop(action_space, observation)
+            return self.handleRiver(action_space, observation)
+        #elif stage == Stage.SHOWDOWN:
+        #    return self.handleShowdownFlop(action_space, observation)
+        return self.handleShowdown(action_space, observation)
 
     def handlePreFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
         # get my hand's percent value (how good is this 2 card hand out of all possible 2 card hands)
@@ -60,7 +60,7 @@ class ANLI(BotInterface):
         # else check or fold
         return self.defaultAction(action_space)
     
-    def handleTurnFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
+    def handleTurn(self, action_space: Sequence[Action], observation: Observation) -> Action:
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
@@ -76,7 +76,7 @@ class ANLI(BotInterface):
         # else check or fold
         return self.defaultAction(action_space)
 
-    def handleRiverFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
+    def handleRiver(self, action_space: Sequence[Action], observation: Observation) -> Action:
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
@@ -92,7 +92,7 @@ class ANLI(BotInterface):
         # else check or fold
         return self.defaultAction(action_space)
 
-    def handleShowdownFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
+    def handleShowdown(self, action_space: Sequence[Action], observation: Observation) -> Action:
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
