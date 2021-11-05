@@ -2,6 +2,7 @@ from bots.ANLI_Staged import ANLI_Staged
 from bots.ANLI_Pre_Post import ANLI_Pre_Post
 from bots.ANLI_Random import ANLI_Random
 from bots.ANLI_Beat_Random import ANLI_Beat_Random
+from bots.ANLI_Look_At_Board import ANLI_Look_At_Board
 from bots.ANLI import ANLI
 from environment.observers.LoggingObserver import LoggingObserver
 from environment.FixedLimitPoker import FixedLimitPoker
@@ -26,12 +27,13 @@ def benchmark():
         # Change the bots here to change the participants
         ANLI(),
         ANLI_Pre_Post(),
-        ANLI_Random(),
-        ANLI_Beat_Random(),
-        ANLI_Staged()
+#        ANLI_Random(),
+#        ANLI_Beat_Random(),
+        ANLI_Staged(),
+        ANLI_Look_At_Board()
     ]
     combinations = list(itertools.combinations(bots, 2))
-    roundsPerPair = 1000
+    roundsPerPair = 10000
     cols = [x.name for x in bots]
     stats = pd.DataFrame(0, columns=cols, index=cols + ["sum", "pr. round"])
     for c in combinations:

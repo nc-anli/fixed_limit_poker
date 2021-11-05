@@ -8,10 +8,10 @@ from environment.Observation import Observation
 from utils.handValue import getHandPercent
 
 # your bot class, rename to match the file name
-class ANLI(BotInterface):
+class ANLI_Look_At_Board(BotInterface):
 
     # change the name of your bot here
-    def __init__(self, name="ANLI"):
+    def __init__(self, name="ANLI_Look_At_Board"):
         '''init function'''
         super().__init__(name=name)
 
@@ -34,7 +34,7 @@ class ANLI(BotInterface):
         # get my hand's percent value (how good is this 2 card hand out of all possible 2 card hands)
         handPercent, _ = getHandPercent(observation.myHand)
         # if my hand is top 20 percent: raise
-        if handPercent < .25:
+        if handPercent < .10:
             return Action.RAISE
         # if my hand is top 60 percent: call
         elif handPercent < .60:
@@ -52,7 +52,7 @@ class ANLI(BotInterface):
         # if my hand is top 30 percent: raise
         if lastAction == Action.CALL and handPercent < .50:
             return Action.RAISE
-        if handPercent <= .35:
+        if handPercent <= .20:
             return Action.RAISE
         # if my hand is top 80 percent: call
         elif handPercent <= .70:
@@ -68,7 +68,7 @@ class ANLI(BotInterface):
         # if my hand is top 30 percent: raise
         if lastAction == Action.CALL and handPercent < .60:
             return Action.RAISE
-        if handPercent <= .45:
+        if handPercent <= .30:
             return Action.RAISE
         # if my hand is top 80 percent: call
         elif handPercent <= .80:
@@ -84,7 +84,7 @@ class ANLI(BotInterface):
         # if my hand is top 30 percent: raise
         if lastAction == Action.CALL and handPercent < .70:
             return Action.RAISE
-        if handPercent <= .55:
+        if handPercent <= .40:
             return Action.RAISE
         # if my hand is top 80 percent: call
         elif handPercent <= .90:
