@@ -23,10 +23,10 @@ def debug():
 def benchmark():
     bots = [
         # Change the bots here to change the participants
-#        ANLI(),
+        ANLI(),
 #        ANLI_Pre_Post(),
         ANLI_Random(),
-        ANLI_Staged()
+#        ANLI_Staged()
     ]
     combinations = list(itertools.combinations(bots, 2))
     roundsPerPair = 1000

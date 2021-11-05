@@ -26,9 +26,9 @@ class ANLI(BotInterface):
             return self.handleTurnFlop(action_space, observation)
         elif stage == Stage.RIVER:
             return self.handleRiverFlop(action_space, observation)
-        elif stage == Stage.SHOWDOWN:
-            return self.handlePostFlop(action_space, observation)
-        return self.handlePostFlop(action_space, observation)
+        #elif stage == Stage.SHOWDOWN:
+        return self.handleShowdownFlop(action_space, observation)
+        
 
     def handlePreFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
         # get my hand's percent value (how good is this 2 card hand out of all possible 2 card hands)
