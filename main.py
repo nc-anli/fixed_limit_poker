@@ -1,8 +1,10 @@
+from bots.ANLI_Staged import ANLI_Staged
+from bots.ANLI_Pre_Post import ANLI_Pre_Post
+from bots.ANLI_Random import ANLI_Random
+from bots.ANLI import ANLI
 from environment.observers.LoggingObserver import LoggingObserver
 from environment.FixedLimitPoker import FixedLimitPoker
-from bots import CounterBot, PercentBot
-from bots.ANLI import ANLI
-from bots.ANLI_old import ANLI_old
+from bots import CounterBot, PercentBot, TemplateBot
 import pandas as pd
 import itertools
 
@@ -12,7 +14,7 @@ def debug():
     env = FixedLimitPoker([
         # Change the bots here to change the participants
         ANLI(),
-        ANLI_old()
+        ANLI_Pre_Post()
     ], observers=observers, punishSlowBots=False)
     env.reset()
     env.reset(rotatePlayers=True)
@@ -21,9 +23,10 @@ def debug():
 def benchmark():
     bots = [
         # Change the bots here to change the participants
-        CounterBot(),
-        PercentBot(),
-        ANLI(),
+#        ANLI(),
+#        ANLI_Pre_Post(),
+        ANLI_Random(),
+        ANLI_Staged()
     ]
     combinations = list(itertools.combinations(bots, 2))
     roundsPerPair = 1000
@@ -45,5 +48,5 @@ def benchmark():
     print(stats)
 
 
-# benchmark()
-debug()
+benchmark()
+# debug()
