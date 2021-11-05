@@ -8,10 +8,10 @@ from environment.Observation import Observation
 from utils.handValue import getHandPercent
 
 # your bot class, rename to match the file name
-class ANLI(BotInterface):
+class ANLI_Staged(BotInterface):
 
     # change the name of your bot here
-    def __init__(self, name="ANLI"):
+    def __init__(self, name="ANLI_Staged"):
         '''init function'''
         super().__init__(name=name)
 
@@ -34,10 +34,10 @@ class ANLI(BotInterface):
         # get my hand's percent value (how good is this 2 card hand out of all possible 2 card hands)
         handPercent, _ = getHandPercent(observation.myHand)
         # if my hand is top 20 percent: raise
-        if handPercent < .50:
+        if handPercent < .10:
             return Action.RAISE
         # if my hand is top 60 percent: call
-        elif handPercent < .75:
+        elif handPercent < .60:
             return Action.CALL
         # else check or fold
         return self.defaultAction(action_space)
@@ -47,10 +47,10 @@ class ANLI(BotInterface):
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
-        if handPercent <= .60:
+        if handPercent <= .20:
             return Action.RAISE
         # if my hand is top 80 percent: call
-        elif handPercent <= .85:
+        elif handPercent <= .70:
             return Action.CALL
         # else check or fold
         return self.defaultAction(action_space)
@@ -60,10 +60,10 @@ class ANLI(BotInterface):
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
-        if handPercent <= .70:
+        if handPercent <= .30:
             return Action.RAISE
         # if my hand is top 80 percent: call
-        elif handPercent <= .95:
+        elif handPercent <= .80:
             return Action.CALL
         # else check or fold
         return self.defaultAction(action_space)
@@ -73,17 +73,20 @@ class ANLI(BotInterface):
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
-        if handPercent <= .80:
+        if handPercent <= .40:
             return Action.RAISE
         # if my hand is top 80 percent: call
-        return Action.CALL
+        elif handPercent <= .90:
+            return Action.CALL
+        # else check or fold
+        return self.defaultAction(action_space)
 
     def handleShowdownFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
-        if handPercent <= .90:
+        if handPercent <= .50:
             return Action.RAISE
         # if my hand is top 80 percent: call
         return Action.CALL

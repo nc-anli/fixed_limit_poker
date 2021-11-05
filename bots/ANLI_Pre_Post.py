@@ -8,10 +8,10 @@ from environment.Observation import Observation
 from utils.handValue import getHandPercent
 
 # your bot class, rename to match the file name
-class ANLI_old(BotInterface):
+class ANLI_Pre_Post(BotInterface):
 
     # change the name of your bot here
-    def __init__(self, name="ANLI_old"):
+    def __init__(self, name="ANLI_Pre_Post"):
         '''init function'''
         super().__init__(name=name)
 
