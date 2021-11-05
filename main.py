@@ -1,6 +1,7 @@
 from bots.ANLI_Staged import ANLI_Staged
 from bots.ANLI_Pre_Post import ANLI_Pre_Post
 from bots.ANLI_Random import ANLI_Random
+from bots.ANLI_Beat_Random import ANLI_Beat_Random
 from bots.ANLI import ANLI
 from environment.observers.LoggingObserver import LoggingObserver
 from environment.FixedLimitPoker import FixedLimitPoker
@@ -23,9 +24,10 @@ def debug():
 def benchmark():
     bots = [
         # Change the bots here to change the participants
-#        ANLI(),
-#        ANLI_Pre_Post(),
+        ANLI(),
+        ANLI_Pre_Post(),
         ANLI_Random(),
+        ANLI_Beat_Random(),
         ANLI_Staged()
     ]
     combinations = list(itertools.combinations(bots, 2))
