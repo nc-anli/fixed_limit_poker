@@ -5,7 +5,7 @@ from typing import Sequence
 from bots.BotInterface import BotInterface
 from environment.Constants import Action, Stage
 from environment.Observation import Observation
-from utils.handValue import getHandPercent
+from utils.handValue import getBoardHandType, getHandPercent, getHandType
 
 # your bot class, rename to match the file name
 class ANLI(BotInterface):
@@ -45,11 +45,14 @@ class ANLI(BotInterface):
         return self.defaultAction(action_space)
 
     def handleFlop(self, action_space: Sequence[Action], observation: Observation) -> Action:
+        isBoardBest = self.isBoardBest(observation)
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
+        if isBoardBest:
+            return self.handleIsBoardBest(action_space, observation)
         if lastAction == Action.CALL and handPercent < .50:
             return Action.RAISE
         if handPercent <= .35:
@@ -61,11 +64,14 @@ class ANLI(BotInterface):
         return self.defaultAction(action_space)
     
     def handleTurn(self, action_space: Sequence[Action], observation: Observation) -> Action:
+        isBoardBest = self.isBoardBest(observation)
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
+        if isBoardBest:
+            return self.handleIsBoardBest(action_space, observation)
         if lastAction == Action.CALL and handPercent < .60:
             return Action.RAISE
         if handPercent <= .45:
@@ -77,11 +83,14 @@ class ANLI(BotInterface):
         return self.defaultAction(action_space)
 
     def handleRiver(self, action_space: Sequence[Action], observation: Observation) -> Action:
+        isBoardBest = self.isBoardBest(observation)
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
+        if isBoardBest:
+            return self.handleIsBoardBest(action_space, observation)        
         if lastAction == Action.CALL and handPercent < .70:
             return Action.RAISE
         if handPercent <= .55:
@@ -93,11 +102,14 @@ class ANLI(BotInterface):
         return self.defaultAction(action_space)
 
     def handleShowdown(self, action_space: Sequence[Action], observation: Observation) -> Action:
+        isBoardBest = self.isBoardBest(observation)
         lastAction = self.lastAction(observation)
         # get my hand's percent value (how good is the best 5 card hand i can make out of all possible 5 card hands)
         handPercent, cards = getHandPercent(
             observation.myHand, observation.boardCards)
         # if my hand is top 30 percent: raise
+        if isBoardBest:
+            return self.handleIsBoardBest(action_space, observation)
         if lastAction == Action.CALL and handPercent < .80:
             return Action.RAISE
         if handPercent <= .50:
@@ -120,3 +132,15 @@ class ANLI(BotInterface):
         # Get the last action the opponent have done
         last_action = opponent_actions_this_round[-1] if len(
             opponent_actions_this_round) > 0 else None
+
+    def isBoardBest(self, observation: Observation) -> bool:
+        return getBoardHandType(observation.boardCards) == getHandType(observation.myHand, observation.boardCards)
+
+    def handleIsBoardBest(self, action_space: Sequence[Action], observation: Observation) -> Action:
+        firstNumber = observation.myHand[0][0]
+        secondNumber = observation.myHand[1][0]
+        if firstNumber == 'A' or secondNumber == 'A':
+            return Action.RAISE
+        elif firstNumber == 'K' or firstNumber == 'Q' or firstNumber == 'J' or firstNumber == 'T' or secondNumber == 'K' or secondNumber == 'Q' or secondNumber == 'J' or secondNumber == 'T':
+            return Action.CALL
+        return self.defaultAction(action_space)    
