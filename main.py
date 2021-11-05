@@ -1,6 +1,7 @@
 from environment.observers.LoggingObserver import LoggingObserver
 from environment.FixedLimitPoker import FixedLimitPoker
-from bots import TemplateBot, CounterBot, PercentBot
+from bots import CounterBot, PercentBot
+from bots.ANLI import ANLI
 import pandas as pd
 import itertools
 
@@ -10,7 +11,7 @@ def debug():
     env = FixedLimitPoker([
         # Change the bots here to change the participants
         PercentBot(),
-        TemplateBot()
+        ANLI()
     ], observers=observers, punishSlowBots=False)
     env.reset()
     env.reset(rotatePlayers=True)
@@ -21,7 +22,7 @@ def benchmark():
         # Change the bots here to change the participants
         CounterBot(),
         PercentBot(),
-        # TemplateBot(),
+        ANLI(),
     ]
     combinations = list(itertools.combinations(bots, 2))
     roundsPerPair = 1000
