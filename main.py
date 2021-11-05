@@ -15,7 +15,7 @@ def debug():
     env = FixedLimitPoker([
         # Change the bots here to change the participants
         ANLI(),
-        ANLI_Pre_Post()
+        ANLI_Staged()
     ], observers=observers, punishSlowBots=False)
     env.reset()
     env.reset(rotatePlayers=True)
