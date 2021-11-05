@@ -21,7 +21,7 @@ class CounterBot(BotInterface):
     """
 
     def __init__(self, name="counter"):
-        super().__init__(name=name)
+        super().__init__(name="CounterBot")
 
     def act(self, action_space: Sequence[Action], observation: Observation) -> Action:
         # get opponent's last action this stage, so we can counter it
